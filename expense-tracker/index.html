@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Expense Tracker</title>
+  <link rel="stylesheet" href="styles.css" />
+  <!-- Chart.js for optional pie chart -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <header class="app-header">
+    <h1>Expense Tracker</h1>
+    <div class="header-actions">
+      <button id="exportBtn" class="btn secondary">Export JSON</button>
+      <label for="importFile" class="btn secondary">Import JSON</label>
+      <input type="file" id="importFile" accept="application/json" hidden>
+      <button id="clearAllBtn" class="btn danger">Clear All</button>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="summary">
+      <div class="card">
+        <h3>Total Income</h3>
+        <p id="totalIncome">₹0</p>
+      </div>
+      <div class="card">
+        <h3>Total Expense</h3>
+        <p id="totalExpense">₹0</p>
+      </div>
+      <div class="card">
+        <h3>Net</h3>
+        <p id="netTotal">₹0</p>
+      </div>
+    </section>
+
+    <section class="form-section">
+      <h2>Add / Edit Transaction</h2>
+      <form id="txForm" novalidate>
+        <div class="grid-2">
+          <div class="form-control">
+            <label for="txDate">Date</label>
+            <input type="date" id="txDate" required />
+            <small class="error" data-for="txDate"></small>
+          </div>
+          <div class="form-control">
+            <label for="txType">Type</label>
+            <select id="txType" required>
+              <option value="">Select type</option>
+              <option value="income">Income</option>
+              <option value="expense">Expense</option>
+            </select>
+            <small class="error" data-for="txType"></small>
+          </div>
+          <div class="form-control">
+            <label for="txDesc">Description</label>
+            <input type="text" id="txDesc" placeholder="e.g., Salary, Groceries" required />
+            <small class="error" data-for="txDesc"></small>
+          </div>
+          <div class="form-control">
+            <label for="txCategory">Category</label>
+            <select id="txCategory" required>
+              <option value="">Select category</option>
+              <option>Food</option>
+              <option>Transportation</option>
+              <option>Housing</option>
+              <option>Utilities</option>
+              <option>Entertainment</option>
+              <option>Healthcare</option>
+              <option>Education</option>
+              <option>Personal</option>
+              <option>Income</option>
+              <option>Other</option>
+            </select>
+            <small class="error" data-for="txCategory"></small>
+          </div>
+          <div class="form-control">
+            <label for="txAmount">Amount</label>
+            <input type="number" id="txAmount" step="0.01" min="0.01" placeholder="e.g., 1200" required />
+            <small class="error" data-for="txAmount"></small>
+          </div>
+        </div>
+        <div class="form-actions">
+          <button type="submit" id="saveBtn" class="btn primary">Add Transaction</button>
+          <button type="button" id="cancelEditBtn" class="btn muted" hidden>Cancel Edit</button>
+        </div>
+      </form>
+    </section>
+
+    <section class="filters">
+      <h2>Filters</h2>
+      <div class="grid-3">
+        <div class="form-control">
+          <label for="filterCategory">Category</label>
+          <select id="filterCategory">
+            <option value="all">All</option>
+          </select>
+        </div>
+        <div class="form-control">
+          <label for="searchText">Search</label>
+          <input type="text" id="searchText" placeholder="Search description..." />
+        </div>
+        <div class="form-control">
+          <label for="sortBy">Sort By</label>
+          <select id="sortBy">
+            <option value="dateDesc">Date (newest)</option>
+            <option value="dateAsc">Date (oldest)</option>
+            <option value="amountDesc">Amount (high → low)</option>
+            <option value="amountAsc">Amount (low → high)</option>
+          </select>
+        </div>
+      </div>
+    </section>
+
+    <section class="list-section">
+      <h2>Transactions</h2>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Description</th>
+              <th>Category</th>
+              <th>Type</th>
+              <th class="right">Amount (₹)</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="txTbody"></tbody>
+        </table>
+      </div>
+      <p id="emptyState" class="empty">No transactions yet. Add your first one above!</p>
+    </section>
+
+    <section class="chart-section">
+      <h2>Expense Breakdown by Category</h2>
+      <canvas id="expenseChart" height="140"></canvas>
+      <p class="muted-text">Tip: The pie chart loads if Chart.js CDN is available.</p>
+    </section>
+  </main>
+
+  <footer class="app-footer">
+    <p>Made with ♥ for your assignment — Expense Tracker (HTML, CSS, JS)</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
